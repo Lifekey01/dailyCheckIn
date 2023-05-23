@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andremion.counterfab.CounterFab;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lifekey.dailycheckin.R;
 import com.lifekey.dailycheckin.adapter.TanggalAdapter;
 import com.lifekey.dailycheckin.helper.Database;
@@ -35,8 +37,8 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    AlertDialog inputDialog;
-    CounterFab counterFab;
+    MaterialAlertDialogBuilder inputDialog;
+    FloatingActionButton counterFab;
     Database db;
     RecyclerView recyclerView;
     List<Tanggal> tanggalList = new ArrayList<>();
@@ -51,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = findViewById(R.id.recyclerTanggal);
-        counterFab = findViewById(R.id.fab_TambahTanggal);
+        recyclerView = findViewById(R.id.recyclerDaily);
+        counterFab = findViewById(R.id.tambahDaily);
         db = new Database(this);
         tanggalAdapter = new TanggalAdapter(tanggalList,this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         getTanggal();
         getTanggalNow();
     }
-    private AlertDialog getInputDialog() {
+    private MaterialAlertDialogBuilder getInputDialog() {
         if (inputDialog == null) {
             LayoutInflater inflater = this.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.dialog_tambah_event, null);
@@ -79,38 +81,8 @@ public class MainActivity extends AppCompatActivity {
                 },year,month,day);
                 datePickerDialog.show();
             });
-            inputDialog = new AlertDialog.Builder(this)
-                    .setTitle("Tambah Tanggal")
-                    .setView(dialogView)
-                    .setPositiveButton("Tambah", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            db.addRecordTanggal(new Tanggal(null,editText.getText().toString()));
-                            getTanggal();
-                            editText.setText("");
-                        }
-                    })
-                    .setNegativeButton("tutup", null)
-                    .create();
+            inputDialog = new MaterialAlertDialogBuilder(this)
 
-            inputDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) {
-                    editText.requestFocus();
-//                    InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                }
-            });
-
-            inputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                    inputDialog = null;
-                }
-            });
-            inputDialog.show();
         }
         return inputDialog;
     }
