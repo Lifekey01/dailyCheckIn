@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerDaily);
         counterFab = findViewById(R.id.tambahDaily);
         db = new Database(this);
-        tanggalAdapter = new TanggalAdapter(tanggalList,this);
+        tanggalAdapter = new TanggalAdapter(tanggalList,this,new Database(this));
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -67,12 +68,18 @@ public class MainActivity extends AppCompatActivity {
         getTanggal();
         getTanggalNow();
     }
-    private MaterialAlertDialogBuilder getInputDialog() {
+    private void getInputDialog() {
         if (inputDialog == null) {
+            inputDialog = new MaterialAlertDialogBuilder(this);
             LayoutInflater inflater = this.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.dialog_tambah_event, null);
-            EditText editText = dialogView.findViewById(R.id.editText);
+            EditText editText = dialogView.findViewById(R.id.editTanggal);
+            Button btn_batal = dialogView.findViewById(R.id.batal);
+            Button btn_simpan = dialogView.findViewById(R.id.simpan);
             editText.setText(currentDate);
+            inputDialog.setView(dialogView);
+            AlertDialog alertDialog = inputDialog.create();
+            alertDialog.show();
             editText.setOnClickListener(view -> {
                DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, year12, month12, day12) -> {
                     NumberFormat numberFormat =new DecimalFormat("00");
@@ -81,10 +88,13 @@ public class MainActivity extends AppCompatActivity {
                 },year,month,day);
                 datePickerDialog.show();
             });
-            inputDialog = new MaterialAlertDialogBuilder(this)
-
+            btn_batal.setOnClickListener((v) -> alertDialog.dismiss());
+            btn_simpan.setOnClickListener((v) -> {
+                db.addRecordTanggal(new Tanggal(null,editText.getText().toString()));
+               getTanggal();
+               alertDialog.dismiss();
+            });
         }
-        return inputDialog;
     }
 
     public void getTanggal(){

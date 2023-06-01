@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KegiatanActivity extends AppCompatActivity {
-    CounterFab counterFab;
+    FloatingActionButton counterFab;
     FloatingActionButton floatingActionButton;
     String idTanggal,tanggal;
     RecyclerView recyclerView;
@@ -31,7 +31,7 @@ public class KegiatanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kegiatan_tes);
+        setContentView(R.layout.activity_kegiatan);
         counterFab = findViewById(R.id.fab_TambahKegiatan);
         recyclerView = findViewById(R.id.recyclerKegiatan);
         modelAdapter = new ModelAdapter(modelList,this);

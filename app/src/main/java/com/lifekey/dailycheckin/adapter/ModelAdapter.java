@@ -35,7 +35,7 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.modelViewHol
 
     @Override
     public void onBindViewHolder(@NonNull modelViewHolder holder, int position) {
-        Model model = modelList.get(holder.getBindingAdapterPosition());
+        Model model = modelList.get(holder.getAdapterPosition());
         Database db = new Database(context);
         if (model.getStatus().equals("true")){
             holder.status.setChecked(true);

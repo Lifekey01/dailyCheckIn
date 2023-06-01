@@ -4,17 +4,6 @@ import java.util.Date;
 
 public class Model {
 
-    @Override
-    public String toString() {
-        return "Model{" +
-                "id='" + id + '\'' +
-                ", namaKegiatan='" + namaKegiatan + '\'' +
-                ", id_tanggal='" + id_tanggal + '\'' +
-                ", tanggalKegiatan='" + tanggalKegiatan + '\'' +
-                ", Status='" + Status + '\'' +
-                '}';
-    }
-
     String id;
     String namaKegiatan;
     String id_tanggal;
@@ -69,5 +58,16 @@ public class Model {
 
     public void setStatus(String status) {
         Status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Model{" +
+                "id='" + id + '\'' +
+                ", namaKegiatan='" + namaKegiatan + '\'' +
+                ", id_tanggal='" + id_tanggal + '\'' +
+                ", tanggalKegiatan='" + tanggalKegiatan + '\'' +
+                ", Status='" + Status + '\'' +
+                '}';
     }
 }

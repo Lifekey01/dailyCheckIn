@@ -2,17 +2,13 @@ package com.lifekey.dailycheckin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import com.lifekey.dailycheckin.R;
 import com.lifekey.dailycheckin.helper.Database;
 import com.lifekey.dailycheckin.model.Model;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,19 +17,20 @@ public class TambahKegiatanActivity extends AppCompatActivity {
     Database db;
     CheckBox checkBox;
     EditText kegiatan,tanggal;
-    Button button,buttoLangsung;
+    Button button, buttonLangsung;
     String idTanggal,tanggalIsi;
-    FloatingActionButton floatingActionButton;
+    FloatingActionButton fab_kembali,fab_setTambahLangsung;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tambah_kegiatan_tes);
+        setContentView(R.layout.activity_tambah_kegiatan);
         checkBox = findViewById(R.id.checkbox);
         kegiatan = findViewById(R.id.kegiatan);
         tanggal = findViewById(R.id.tanggal);
         button = findViewById(R.id.TambahKegiatan);
-        buttoLangsung = findViewById(R.id.TambahLangsung);
-        floatingActionButton = findViewById(R.id.fab_kembali);
+        buttonLangsung = findViewById(R.id.TambahLangsung);
+        fab_kembali = findViewById(R.id.kembali);
+        fab_setTambahLangsung = findViewById(R.id.setTambahLangsung);
         db = new Database(this);
         Intent intent = getIntent();
         idTanggal = intent.getStringExtra("idTanggal");
@@ -46,12 +43,12 @@ public class TambahKegiatanActivity extends AppCompatActivity {
             finish();
         });
 
-        buttoLangsung.setOnClickListener((v) -> {
+        buttonLangsung.setOnClickListener((v) -> {
             TambahKegiatanDBLangsung();
             finish();
         });
 
-        floatingActionButton.setOnClickListener((V) -> onBackPressed());
+        fab_kembali.setOnClickListener((V) -> onBackPressed());
     }
 
 
